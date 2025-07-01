@@ -1,0 +1,36 @@
+{
+    "template_id": "job_120",
+    "template": "SELECT MIN(kind_type.kind) AS kind_type_kind FROM aka_title, complete_cast, movie_companies, title, kind_type, movie_link WHERE aka_title.movie_id = title.id AND kind_type.id = aka_title.kind_id AND complete_cast.movie_id = title.id AND kind_type.id = title.kind_id AND movie_companies.movie_id = title.id AND movie_link.movie_id = title.id AND title.production_year > %s AND kind_type.kind IN ('movie', 'episode', 'series') AND title.episode_nr < %s AND title.episode_nr > %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        }
+    ]
+}

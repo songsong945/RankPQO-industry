@@ -1,0 +1,36 @@
+{
+    "template_id": "job_163",
+    "template": "SELECT MIN(movie_link.linked_movie_id) AS movie_link_linked_movie_id, MIN(aka_title.id) AS aka_title_id, MIN(movie_keyword.movie_id) AS movie_keyword_movie_id FROM movie_link, aka_title, movie_keyword, title, cast_info WHERE cast_info.movie_id = title.id AND aka_title.movie_id = title.id AND movie_keyword.movie_id = title.id AND movie_link.movie_id = title.id AND title.episode_nr < %s AND title.episode_nr > %s AND title.production_year BETWEEN 1955 AND 2000 AND title.production_year < %s AND cast_info.note IN ('(voice)', '(voice: Japanese version)', '(voice) (uncredited)', '(voice: English version)');",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

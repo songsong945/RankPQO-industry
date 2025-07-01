@@ -1,0 +1,162 @@
+{
+    "plan 1": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 172682,
+        "output": "output([T_FUN_MIN(info_type.id)], [T_FUN_MIN(name.gender)], [T_FUN_MIN(person_info.person_id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "MERGE JOIN ",
+            "NAME": "",
+            "EST.ROWS": 2,
+            "EST.TIME(us)": 172682,
+            "output": "output([info_type.id], [person_info.person_id], [name.gender])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "info_type",
+                "EST.ROWS": 113,
+                "EST.TIME(us)": 6,
+                "output": "output([info_type.id])"
+            },
+            "CHILD_2": {
+                "ID": 3,
+                "OPERATOR": "SORT",
+                "NAME": "",
+                "EST.ROWS": 2,
+                "EST.TIME(us)": 172672,
+                "output": "output([person_info.info_type_id], [person_info.person_id], [name.gender])",
+                "CHILD_1": {
+                    "ID": 4,
+                    "OPERATOR": "NESTED-LOOP JOIN ",
+                    "NAME": "",
+                    "EST.ROWS": 2,
+                    "EST.TIME(us)": 172672,
+                    "output": "output([person_info.info_type_id], [person_info.person_id], [name.gender])",
+                    "CHILD_1": {
+                        "ID": 5,
+                        "OPERATOR": "TABLE FULL SCAN",
+                        "NAME": "person_info",
+                        "EST.ROWS": 2,
+                        "EST.TIME(us)": 172653,
+                        "output": "output([person_info.person_id], [person_info.info_type_id])"
+                    },
+                    "CHILD_2": {
+                        "ID": 6,
+                        "OPERATOR": "TABLE GET",
+                        "NAME": "name",
+                        "EST.ROWS": 1,
+                        "EST.TIME(us)": 16,
+                        "output": "output([name.gender])"
+                    }
+                }
+            }
+        }
+    },
+    "plan 2": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 172683,
+        "output": "output([T_FUN_MIN(info_type.id)], [T_FUN_MIN(name.gender)], [T_FUN_MIN(person_info.person_id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "NESTED-LOOP JOIN ",
+            "NAME": "",
+            "EST.ROWS": 2,
+            "EST.TIME(us)": 172682,
+            "output": "output([person_info.person_id], [info_type.id], [name.gender])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "MERGE JOIN ",
+                "NAME": "",
+                "EST.ROWS": 2,
+                "EST.TIME(us)": 172664,
+                "output": "output([person_info.person_id], [info_type.id])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "info_type",
+                    "EST.ROWS": 113,
+                    "EST.TIME(us)": 6,
+                    "output": "output([info_type.id])"
+                },
+                "CHILD_2": {
+                    "ID": 4,
+                    "OPERATOR": "SORT",
+                    "NAME": "",
+                    "EST.ROWS": 2,
+                    "EST.TIME(us)": 172654,
+                    "output": "output([person_info.person_id], [person_info.info_type_id])",
+                    "CHILD_1": {
+                        "ID": 5,
+                        "OPERATOR": "TABLE FULL SCAN",
+                        "NAME": "person_info",
+                        "EST.ROWS": 2,
+                        "EST.TIME(us)": 172653,
+                        "output": "output([person_info.person_id], [person_info.info_type_id])"
+                    }
+                }
+            },
+            "CHILD_2": {
+                "ID": 6,
+                "OPERATOR": "TABLE GET",
+                "NAME": "name",
+                "EST.ROWS": 1,
+                "EST.TIME(us)": 16,
+                "output": "output([name.gender])"
+            }
+        }
+    },
+    "plan 3": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 172687,
+        "output": "output([T_FUN_MIN(info_type.id)], [T_FUN_MIN(name.gender)], [T_FUN_MIN(person_info.person_id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "NESTED-LOOP JOIN ",
+            "NAME": "",
+            "EST.ROWS": 2,
+            "EST.TIME(us)": 172687,
+            "output": "output([person_info.person_id], [info_type.id], [name.gender])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "HASH JOIN ",
+                "NAME": "",
+                "EST.ROWS": 2,
+                "EST.TIME(us)": 172668,
+                "output": "output([person_info.person_id], [info_type.id])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "person_info",
+                    "EST.ROWS": 2,
+                    "EST.TIME(us)": 172653,
+                    "output": "output([person_info.person_id], [person_info.info_type_id])"
+                },
+                "CHILD_2": {
+                    "ID": 4,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "info_type",
+                    "EST.ROWS": 113,
+                    "EST.TIME(us)": 6,
+                    "output": "output([info_type.id])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 5,
+                "OPERATOR": "TABLE GET",
+                "NAME": "name",
+                "EST.ROWS": 1,
+                "EST.TIME(us)": 16,
+                "output": "output([name.gender])"
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "template_id": "job_132",
+    "template": "SELECT MIN(title.kind_id) AS title_kind_id FROM title, movie_link, link_type, movie_info, complete_cast, movie_keyword WHERE complete_cast.movie_id = title.id AND movie_info.movie_id = title.id AND movie_keyword.movie_id = title.id AND movie_link.movie_id = title.id AND link_type.id = movie_link.link_type_id AND title.production_year BETWEEN 1955 AND 2000 AND movie_info.info IN ('Drama', 'Horror', 'Thriller', 'Action', 'Sci-Fi') AND link_type.link LIKE %s AND title.episode_nr > %s;",
+    "predicates": [
+        {
+            "alias": "link_type",
+            "column": "link_type.link",
+            "operator": "like",
+            "data_type": "text",
+            "preprocess_type": "embedding",
+            "distinct_values": [
+                "follows",
+                "followed by",
+                "remake of",
+                "remade as",
+                "references",
+                "referenced in",
+                "spoofs",
+                "spoofed in",
+                "features",
+                "featured in",
+                "spin off from",
+                "spin off",
+                "version of",
+                "similar to",
+                "edited into",
+                "edited from",
+                "alternate language version of",
+                "unknown link"
+            ],
+            "max_len": 23
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "template_id": "job_309",
+    "template": "SELECT MIN(aka_title.title) AS aka_title_title, MIN(movie_keyword.id) AS movie_keyword_id, MIN(title.kind_id) AS title_kind_id FROM title, movie_keyword, aka_title WHERE aka_title.movie_id = title.id AND movie_keyword.movie_id = title.id AND title.production_year > %s AND title.production_year < %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

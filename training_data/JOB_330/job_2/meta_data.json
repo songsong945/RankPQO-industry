@@ -1,0 +1,26 @@
+{
+    "template_id": "job_2",
+    "template": "SELECT MIN(movie_keyword.id) AS movie_keyword_id FROM cast_info, title, movie_keyword WHERE cast_info.movie_id = title.id AND movie_keyword.movie_id = title.id AND title.production_year < %s AND title.production_year BETWEEN 1955 AND 2000 AND title.production_year > %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "template_id": "job_78",
+    "template": "SELECT MIN(name.name) AS name_name, MIN(cast_info.role_id) AS cast_info_role_id, MIN(title.title) AS title_title FROM name, title, cast_info, kind_type, movie_link WHERE cast_info.person_id = name.id AND cast_info.movie_id = title.id AND kind_type.id = title.kind_id AND movie_link.movie_id = title.id AND cast_info.note IN ('(voice)', '(voice: Japanese version)', '(voice) (uncredited)', '(voice: English version)') AND title.episode_nr > %s AND title.production_year > %s AND title.production_year < %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "template_id": "job_56",
+    "template": "SELECT MIN(title.kind_id) AS title_kind_id, MIN(keyword.id) AS keyword_id FROM movie_companies, keyword, title, movie_link, movie_info, movie_keyword WHERE movie_companies.movie_id = title.id AND movie_info.movie_id = title.id AND movie_keyword.movie_id = title.id AND movie_link.movie_id = title.id AND keyword.id = movie_keyword.keyword_id AND keyword.keyword IN ('murder', 'violence', 'blood', 'gore', 'death') AND title.episode_nr > %s AND title.production_year < %s AND title.production_year BETWEEN 1955 AND 2000;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

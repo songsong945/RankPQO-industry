@@ -1,0 +1,26 @@
+{
+    "template_id": "job_290",
+    "template": "SELECT MIN(keyword.keyword) AS keyword_keyword, MIN(complete_cast.id) AS complete_cast_id, MIN(title.episode_nr) AS title_episode_nr FROM movie_keyword, keyword, complete_cast, title WHERE keyword.id = movie_keyword.keyword_id AND complete_cast.movie_id = title.id AND movie_keyword.movie_id = title.id AND title.production_year < %s AND title.production_year BETWEEN 1955 AND 2000 AND title.production_year > %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

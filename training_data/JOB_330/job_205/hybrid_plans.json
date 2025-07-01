@@ -1,0 +1,298 @@
+{
+    "plan 1": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 739884,
+        "output": "output([T_FUN_MIN(movie_link.linked_movie_id)], [T_FUN_MIN(movie_keyword.movie_id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "MERGE JOIN ",
+            "NAME": "",
+            "EST.ROWS": 3169567,
+            "EST.TIME(us)": 633383,
+            "output": "output([movie_keyword.movie_id], [movie_link.linked_movie_id])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "movie_keyword(movie_id_movie_keyword)",
+                "EST.ROWS": 4523929,
+                "EST.TIME(us)": 116666,
+                "output": "output([movie_keyword.movie_id])"
+            },
+            "CHILD_2": {
+                "ID": 3,
+                "OPERATOR": "SORT",
+                "NAME": "",
+                "EST.ROWS": 34527,
+                "EST.TIME(us)": 214069,
+                "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])",
+                "CHILD_1": {
+                    "ID": 4,
+                    "OPERATOR": "HASH JOIN ",
+                    "NAME": "",
+                    "EST.ROWS": 34527,
+                    "EST.TIME(us)": 205633,
+                    "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])",
+                    "CHILD_1": {
+                        "ID": 5,
+                        "OPERATOR": "TABLE FULL SCAN",
+                        "NAME": "kind_type",
+                        "EST.ROWS": 7,
+                        "EST.TIME(us)": 3,
+                        "output": "output([kind_type.id])"
+                    },
+                    "CHILD_2": {
+                        "ID": 6,
+                        "OPERATOR": "MERGE JOIN ",
+                        "NAME": "",
+                        "EST.ROWS": 29997,
+                        "EST.TIME(us)": 202056,
+                        "output": "output([movie_link.movie_id], [movie_link.linked_movie_id], [title.kind_id])",
+                        "CHILD_1": {
+                            "ID": 7,
+                            "OPERATOR": "SORT",
+                            "NAME": "",
+                            "EST.ROWS": 29996,
+                            "EST.TIME(us)": 8970,
+                            "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])",
+                            "CHILD_1": {
+                                "ID": 8,
+                                "OPERATOR": "TABLE FULL SCAN",
+                                "NAME": "movie_link",
+                                "EST.ROWS": 29996,
+                                "EST.TIME(us)": 1470,
+                                "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])"
+                            }
+                        },
+                        "CHILD_2": {
+                            "ID": 9,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "title",
+                            "EST.ROWS": 704066,
+                            "EST.TIME(us)": 187745,
+                            "output": "output([title.id], [title.kind_id])"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "plan 2": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 1006132,
+        "output": "output([T_FUN_MIN(movie_link.linked_movie_id)], [T_FUN_MIN(movie_keyword.movie_id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "HASH JOIN ",
+            "NAME": "",
+            "EST.ROWS": 3169567,
+            "EST.TIME(us)": 899631,
+            "output": "output([movie_keyword.movie_id], [movie_link.linked_movie_id])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "HASH JOIN ",
+                "NAME": "",
+                "EST.ROWS": 34527,
+                "EST.TIME(us)": 299622,
+                "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "MERGE JOIN ",
+                    "NAME": "",
+                    "EST.ROWS": 29997,
+                    "EST.TIME(us)": 291402,
+                    "output": "output([movie_link.movie_id], [title.kind_id], [movie_link.linked_movie_id])",
+                    "CHILD_1": {
+                        "ID": 4,
+                        "OPERATOR": "TABLE FULL SCAN",
+                        "NAME": "title",
+                        "EST.ROWS": 704066,
+                        "EST.TIME(us)": 187745,
+                        "output": "output([title.id], [title.kind_id])"
+                    },
+                    "CHILD_2": {
+                        "ID": 5,
+                        "OPERATOR": "SORT",
+                        "NAME": "",
+                        "EST.ROWS": 29996,
+                        "EST.TIME(us)": 8970,
+                        "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])",
+                        "CHILD_1": {
+                            "ID": 6,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "movie_link",
+                            "EST.ROWS": 29996,
+                            "EST.TIME(us)": 1470,
+                            "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])"
+                        }
+                    }
+                },
+                "CHILD_2": {
+                    "ID": 7,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "kind_type",
+                    "EST.ROWS": 7,
+                    "EST.TIME(us)": 3,
+                    "output": "output([kind_type.id])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 8,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "movie_keyword(movie_id_movie_keyword)",
+                "EST.ROWS": 4523929,
+                "EST.TIME(us)": 116666,
+                "output": "output([movie_keyword.movie_id])"
+            }
+        }
+    },
+    "plan 3": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 916786,
+        "output": "output([T_FUN_MIN(movie_link.linked_movie_id)], [T_FUN_MIN(movie_keyword.movie_id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "HASH JOIN ",
+            "NAME": "",
+            "EST.ROWS": 3169567,
+            "EST.TIME(us)": 810285,
+            "output": "output([movie_keyword.movie_id], [movie_link.linked_movie_id])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "HASH JOIN ",
+                "NAME": "",
+                "EST.ROWS": 34527,
+                "EST.TIME(us)": 210276,
+                "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "MERGE JOIN ",
+                    "NAME": "",
+                    "EST.ROWS": 29997,
+                    "EST.TIME(us)": 202056,
+                    "output": "output([movie_link.movie_id], [movie_link.linked_movie_id], [title.kind_id])",
+                    "CHILD_1": {
+                        "ID": 4,
+                        "OPERATOR": "SORT",
+                        "NAME": "",
+                        "EST.ROWS": 29996,
+                        "EST.TIME(us)": 8970,
+                        "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])",
+                        "CHILD_1": {
+                            "ID": 5,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "movie_link",
+                            "EST.ROWS": 29996,
+                            "EST.TIME(us)": 1470,
+                            "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])"
+                        }
+                    },
+                    "CHILD_2": {
+                        "ID": 6,
+                        "OPERATOR": "TABLE FULL SCAN",
+                        "NAME": "title",
+                        "EST.ROWS": 704066,
+                        "EST.TIME(us)": 187745,
+                        "output": "output([title.id], [title.kind_id])"
+                    }
+                },
+                "CHILD_2": {
+                    "ID": 7,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "kind_type",
+                    "EST.ROWS": 7,
+                    "EST.TIME(us)": 3,
+                    "output": "output([kind_type.id])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 8,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "movie_keyword(movie_id_movie_keyword)",
+                "EST.ROWS": 4523929,
+                "EST.TIME(us)": 116666,
+                "output": "output([movie_keyword.movie_id])"
+            }
+        }
+    },
+    "plan 4": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 1390794,
+        "output": "output([T_FUN_MIN(movie_link.linked_movie_id)], [T_FUN_MIN(movie_keyword.movie_id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "HASH JOIN ",
+            "NAME": "",
+            "EST.ROWS": 3169567,
+            "EST.TIME(us)": 1284293,
+            "output": "output([movie_keyword.movie_id], [movie_link.linked_movie_id])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "MERGE JOIN ",
+                "NAME": "",
+                "EST.ROWS": 2753649,
+                "EST.TIME(us)": 508047,
+                "output": "output([movie_keyword.movie_id], [title.kind_id], [movie_link.linked_movie_id])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "MERGE JOIN ",
+                    "NAME": "",
+                    "EST.ROWS": 29997,
+                    "EST.TIME(us)": 291402,
+                    "output": "output([movie_link.movie_id], [title.kind_id], [movie_link.linked_movie_id])",
+                    "CHILD_1": {
+                        "ID": 4,
+                        "OPERATOR": "TABLE FULL SCAN",
+                        "NAME": "title",
+                        "EST.ROWS": 704066,
+                        "EST.TIME(us)": 187745,
+                        "output": "output([title.id], [title.kind_id])"
+                    },
+                    "CHILD_2": {
+                        "ID": 5,
+                        "OPERATOR": "SORT",
+                        "NAME": "",
+                        "EST.ROWS": 29996,
+                        "EST.TIME(us)": 8970,
+                        "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])",
+                        "CHILD_1": {
+                            "ID": 6,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "movie_link",
+                            "EST.ROWS": 29996,
+                            "EST.TIME(us)": 1470,
+                            "output": "output([movie_link.movie_id], [movie_link.linked_movie_id])"
+                        }
+                    }
+                },
+                "CHILD_2": {
+                    "ID": 7,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "movie_keyword(movie_id_movie_keyword)",
+                    "EST.ROWS": 4523929,
+                    "EST.TIME(us)": 116666,
+                    "output": "output([movie_keyword.movie_id])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 8,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "kind_type",
+                "EST.ROWS": 7,
+                "EST.TIME(us)": 3,
+                "output": "output([kind_type.id])"
+            }
+        }
+    }
+}

@@ -1,0 +1,146 @@
+{
+    "plan 1": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 1172755,
+        "output": "output([T_FUN_MIN(person_info.id)], [T_FUN_MIN(name.gender)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "HASH JOIN ",
+            "NAME": "",
+            "EST.ROWS": 2514448,
+            "EST.TIME(us)": 1088267,
+            "output": "output([name.gender], [person_info.id])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "info_type",
+                "EST.ROWS": 113,
+                "EST.TIME(us)": 6,
+                "output": "output([info_type.id])"
+            },
+            "CHILD_2": {
+                "ID": 3,
+                "OPERATOR": "HASH JOIN ",
+                "NAME": "",
+                "EST.ROWS": 2521489,
+                "EST.TIME(us)": 799807,
+                "output": "output([name.gender], [person_info.id], [person_info.info_type_id])",
+                "CHILD_1": {
+                    "ID": 4,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "name",
+                    "EST.ROWS": 208375,
+                    "EST.TIME(us)": 251428,
+                    "output": "output([name.id], [name.gender])"
+                },
+                "CHILD_2": {
+                    "ID": 5,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "person_info",
+                    "EST.ROWS": 2551125,
+                    "EST.TIME(us)": 183864,
+                    "output": "output([person_info.id], [person_info.person_id], [person_info.info_type_id])"
+                }
+            }
+        }
+    },
+    "plan 2": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 1846473,
+        "output": "output([T_FUN_MIN(person_info.id)], [T_FUN_MIN(name.gender)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "HASH JOIN ",
+            "NAME": "",
+            "EST.ROWS": 2514448,
+            "EST.TIME(us)": 1761984,
+            "output": "output([person_info.id], [name.gender])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "HASH JOIN ",
+                "NAME": "",
+                "EST.ROWS": 2521489,
+                "EST.TIME(us)": 1118419,
+                "output": "output([person_info.id], [person_info.info_type_id], [name.gender])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "person_info",
+                    "EST.ROWS": 2551125,
+                    "EST.TIME(us)": 183864,
+                    "output": "output([person_info.id], [person_info.person_id], [person_info.info_type_id])"
+                },
+                "CHILD_2": {
+                    "ID": 4,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "name",
+                    "EST.ROWS": 208375,
+                    "EST.TIME(us)": 251428,
+                    "output": "output([name.id], [name.gender])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 5,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "info_type",
+                "EST.ROWS": 113,
+                "EST.TIME(us)": 6,
+                "output": "output([info_type.id])"
+            }
+        }
+    },
+    "plan 3": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 1527861,
+        "output": "output([T_FUN_MIN(person_info.id)], [T_FUN_MIN(name.gender)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "HASH JOIN ",
+            "NAME": "",
+            "EST.ROWS": 2514448,
+            "EST.TIME(us)": 1443373,
+            "output": "output([name.gender], [person_info.id])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "HASH JOIN ",
+                "NAME": "",
+                "EST.ROWS": 2521489,
+                "EST.TIME(us)": 799807,
+                "output": "output([name.gender], [person_info.id], [person_info.info_type_id])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "name",
+                    "EST.ROWS": 208375,
+                    "EST.TIME(us)": 251428,
+                    "output": "output([name.id], [name.gender])"
+                },
+                "CHILD_2": {
+                    "ID": 4,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "person_info",
+                    "EST.ROWS": 2551125,
+                    "EST.TIME(us)": 183864,
+                    "output": "output([person_info.id], [person_info.person_id], [person_info.info_type_id])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 5,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "info_type",
+                "EST.ROWS": 113,
+                "EST.TIME(us)": 6,
+                "output": "output([info_type.id])"
+            }
+        }
+    }
+}

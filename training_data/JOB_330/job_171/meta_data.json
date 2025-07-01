@@ -1,0 +1,36 @@
+{
+    "template_id": "job_171",
+    "template": "SELECT MIN(cast_info.note) AS cast_info_note, MIN(name.id) AS name_id, MIN(info_type.info) AS info_type_info FROM cast_info, person_info, title, name, info_type WHERE info_type.id = person_info.info_type_id AND cast_info.person_id = name.id AND cast_info.movie_id = title.id AND person_info.person_id = name.id AND title.episode_nr > %s AND title.episode_nr < %s AND title.production_year < %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

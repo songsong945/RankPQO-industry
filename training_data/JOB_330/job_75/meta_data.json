@@ -1,0 +1,36 @@
+{
+    "template_id": "job_75",
+    "template": "SELECT MIN(complete_cast.movie_id) AS complete_cast_movie_id, MIN(title.kind_id) AS title_kind_id, MIN(aka_title.id) AS aka_title_id FROM complete_cast, title, aka_title WHERE aka_title.movie_id = title.id AND complete_cast.movie_id = title.id AND title.production_year > %s AND title.episode_nr > %s AND title.production_year BETWEEN 1955 AND 2000 AND title.production_year < %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

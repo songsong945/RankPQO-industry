@@ -1,0 +1,36 @@
+{
+    "template_id": "job_272",
+    "template": "SELECT MIN(link_type.id) AS link_type_id, MIN(movie_link.linked_movie_id) AS movie_link_linked_movie_id FROM aka_title, movie_link, movie_keyword, title, link_type WHERE aka_title.movie_id = title.id AND movie_keyword.movie_id = title.id AND movie_link.movie_id = title.id AND link_type.id = movie_link.link_type_id AND title.episode_nr > %s AND title.production_year BETWEEN 1955 AND 2000 AND title.episode_nr < %s AND title.production_year > %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "template_id": "job_105",
+    "template": "SELECT MIN(title.title) AS title_title, MIN(kind_type.id) AS kind_type_id, MIN(company_name.country_code) AS company_name_country_code FROM movie_companies, company_name, title, kind_type WHERE company_name.id = movie_companies.company_id AND kind_type.id = title.kind_id AND movie_companies.movie_id = title.id AND title.episode_nr > %s AND kind_type.kind IN ('movie', 'episode', 'series') AND title.episode_nr < %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        }
+    ]
+}

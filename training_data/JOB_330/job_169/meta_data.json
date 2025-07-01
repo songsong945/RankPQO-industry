@@ -1,0 +1,36 @@
+{
+    "template_id": "job_169",
+    "template": "SELECT MIN(cast_info.role_id) AS cast_info_role_id, MIN(movie_keyword.id) AS movie_keyword_id FROM movie_keyword, title, cast_info, keyword WHERE cast_info.movie_id = title.id AND keyword.id = movie_keyword.keyword_id AND movie_keyword.movie_id = title.id AND title.episode_nr > %s AND cast_info.note IN ('(voice)', '(voice: Japanese version)', '(voice) (uncredited)', '(voice: English version)') AND title.episode_nr < %s AND title.production_year < %s AND keyword.keyword IN ('murder', 'violence', 'blood', 'gore', 'death');",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

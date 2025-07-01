@@ -1,0 +1,36 @@
+{
+    "template_id": "job_162",
+    "template": "SELECT MIN(title.id) AS title_id FROM complete_cast, movie_info, title WHERE complete_cast.movie_id = title.id AND movie_info.movie_id = title.id AND title.production_year > %s AND title.production_year < %s AND movie_info.info IN ('Drama', 'Horror', 'Thriller', 'Action', 'Sci-Fi') AND title.production_year BETWEEN 1955 AND 2000 AND title.episode_nr > %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        },
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        }
+    ]
+}

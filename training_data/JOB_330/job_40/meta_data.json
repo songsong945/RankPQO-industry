@@ -1,0 +1,26 @@
+{
+    "template_id": "job_40",
+    "template": "SELECT MIN(movie_companies.movie_id) AS movie_companies_movie_id, MIN(movie_info_idx.info) AS movie_info_idx_info FROM title, movie_info_idx, movie_companies WHERE movie_companies.movie_id = title.id AND movie_info_idx.movie_id = title.id AND title.episode_nr > %s AND title.production_year < %s;",
+    "predicates": [
+        {
+            "alias": "title",
+            "column": "title.episode_nr",
+            "operator": ">",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 91821,
+            "max_len": 14912
+        },
+        {
+            "alias": "title",
+            "column": "title.production_year",
+            "operator": "<",
+            "data_type": "int",
+            "preprocess_type": "embedding",
+            "min": 0,
+            "max": 2019,
+            "max_len": 138
+        }
+    ]
+}

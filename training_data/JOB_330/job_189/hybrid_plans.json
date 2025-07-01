@@ -1,0 +1,290 @@
+{
+    "plan 1": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 16934398,
+        "output": "output([T_FUN_MIN(cast_info.nr_order)], [T_FUN_MIN(person_info.person_id)], [T_FUN_MIN(name.id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "MERGE JOIN ",
+            "NAME": "",
+            "EST.ROWS": 178844923,
+            "EST.TIME(us)": 8157001,
+            "output": "output([person_info.person_id], [name.id], [cast_info.nr_order])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "person_info(person_id_person_info)",
+                "EST.ROWS": 2551125,
+                "EST.TIME(us)": 65791,
+                "output": "output([person_info.person_id])"
+            },
+            "CHILD_2": {
+                "ID": 3,
+                "OPERATOR": "MERGE JOIN ",
+                "NAME": "",
+                "EST.ROWS": 3485852,
+                "EST.TIME(us)": 2910920,
+                "output": "output([aka_name.person_id], [name.id], [cast_info.nr_order])",
+                "CHILD_1": {
+                    "ID": 4,
+                    "OPERATOR": "SORT",
+                    "NAME": "",
+                    "EST.ROWS": 206071,
+                    "EST.TIME(us)": 2760469,
+                    "output": "output([name.id], [cast_info.nr_order])",
+                    "CHILD_1": {
+                        "ID": 5,
+                        "OPERATOR": "HASH JOIN ",
+                        "NAME": "",
+                        "EST.ROWS": 206071,
+                        "EST.TIME(us)": 2702493,
+                        "output": "output([name.id], [cast_info.nr_order])",
+                        "CHILD_1": {
+                            "ID": 6,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "name",
+                            "EST.ROWS": 49147,
+                            "EST.TIME(us)": 267970,
+                            "output": "output([name.id])"
+                        },
+                        "CHILD_2": {
+                            "ID": 7,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "cast_info",
+                            "EST.ROWS": 1812218,
+                            "EST.TIME(us)": 2258789,
+                            "output": "output([cast_info.person_id], [cast_info.nr_order])"
+                        }
+                    }
+                },
+                "CHILD_2": {
+                    "ID": 8,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "aka_name(person_id_aka_name)",
+                    "EST.ROWS": 901342,
+                    "EST.TIME(us)": 23247,
+                    "output": "output([aka_name.person_id])"
+                }
+            }
+        }
+    },
+    "plan 2": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 19154542,
+        "output": "output([T_FUN_MIN(cast_info.nr_order)], [T_FUN_MIN(person_info.person_id)], [T_FUN_MIN(name.id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "MERGE JOIN ",
+            "NAME": "",
+            "EST.ROWS": 178844923,
+            "EST.TIME(us)": 10377145,
+            "output": "output([person_info.person_id], [name.id], [cast_info.nr_order])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "MERGE JOIN ",
+                "NAME": "",
+                "EST.ROWS": 10572650,
+                "EST.TIME(us)": 3674120,
+                "output": "output([person_info.person_id], [name.id], [cast_info.nr_order])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "SORT",
+                    "NAME": "",
+                    "EST.ROWS": 206071,
+                    "EST.TIME(us)": 3258693,
+                    "output": "output([name.id], [cast_info.nr_order])",
+                    "CHILD_1": {
+                        "ID": 4,
+                        "OPERATOR": "HASH JOIN ",
+                        "NAME": "",
+                        "EST.ROWS": 206071,
+                        "EST.TIME(us)": 3200717,
+                        "output": "output([name.id], [cast_info.nr_order])",
+                        "CHILD_1": {
+                            "ID": 5,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "cast_info",
+                            "EST.ROWS": 1812218,
+                            "EST.TIME(us)": 2258789,
+                            "output": "output([cast_info.person_id], [cast_info.nr_order])"
+                        },
+                        "CHILD_2": {
+                            "ID": 6,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "name",
+                            "EST.ROWS": 49147,
+                            "EST.TIME(us)": 267970,
+                            "output": "output([name.id])"
+                        }
+                    }
+                },
+                "CHILD_2": {
+                    "ID": 7,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "person_info(person_id_person_info)",
+                    "EST.ROWS": 2551125,
+                    "EST.TIME(us)": 65791,
+                    "output": "output([person_info.person_id])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 8,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "aka_name(person_id_aka_name)",
+                "EST.ROWS": 901342,
+                "EST.TIME(us)": 23247,
+                "output": "output([aka_name.person_id])"
+            }
+        }
+    },
+    "plan 3": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 17631887,
+        "output": "output([T_FUN_MIN(cast_info.nr_order)], [T_FUN_MIN(person_info.person_id)], [T_FUN_MIN(name.id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "MERGE JOIN ",
+            "NAME": "",
+            "EST.ROWS": 178844923,
+            "EST.TIME(us)": 8854490,
+            "output": "output([person_info.person_id], [name.id], [cast_info.nr_order])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "MERGE JOIN ",
+                "NAME": "",
+                "EST.ROWS": 3485852,
+                "EST.TIME(us)": 3409144,
+                "output": "output([aka_name.person_id], [name.id], [cast_info.nr_order])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "SORT",
+                    "NAME": "",
+                    "EST.ROWS": 206071,
+                    "EST.TIME(us)": 3258693,
+                    "output": "output([name.id], [cast_info.nr_order])",
+                    "CHILD_1": {
+                        "ID": 4,
+                        "OPERATOR": "HASH JOIN ",
+                        "NAME": "",
+                        "EST.ROWS": 206071,
+                        "EST.TIME(us)": 3200717,
+                        "output": "output([name.id], [cast_info.nr_order])",
+                        "CHILD_1": {
+                            "ID": 5,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "cast_info",
+                            "EST.ROWS": 1812218,
+                            "EST.TIME(us)": 2258789,
+                            "output": "output([cast_info.person_id], [cast_info.nr_order])"
+                        },
+                        "CHILD_2": {
+                            "ID": 6,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "name",
+                            "EST.ROWS": 49147,
+                            "EST.TIME(us)": 267970,
+                            "output": "output([name.id])"
+                        }
+                    }
+                },
+                "CHILD_2": {
+                    "ID": 7,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "aka_name(person_id_aka_name)",
+                    "EST.ROWS": 901342,
+                    "EST.TIME(us)": 23247,
+                    "output": "output([aka_name.person_id])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 8,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "person_info(person_id_person_info)",
+                "EST.ROWS": 2551125,
+                "EST.TIME(us)": 65791,
+                "output": "output([person_info.person_id])"
+            }
+        }
+    },
+    "plan 4": {
+        "ID": 0,
+        "OPERATOR": "SCALAR GROUP BY",
+        "NAME": "",
+        "EST.ROWS": 1,
+        "EST.TIME(us)": 18656318,
+        "output": "output([T_FUN_MIN(cast_info.nr_order)], [T_FUN_MIN(person_info.person_id)], [T_FUN_MIN(name.id)])",
+        "CHILD_1": {
+            "ID": 1,
+            "OPERATOR": "MERGE JOIN ",
+            "NAME": "",
+            "EST.ROWS": 178844923,
+            "EST.TIME(us)": 9878921,
+            "output": "output([person_info.person_id], [name.id], [cast_info.nr_order])",
+            "CHILD_1": {
+                "ID": 2,
+                "OPERATOR": "MERGE JOIN ",
+                "NAME": "",
+                "EST.ROWS": 10572650,
+                "EST.TIME(us)": 3175897,
+                "output": "output([person_info.person_id], [name.id], [cast_info.nr_order])",
+                "CHILD_1": {
+                    "ID": 3,
+                    "OPERATOR": "SORT",
+                    "NAME": "",
+                    "EST.ROWS": 206071,
+                    "EST.TIME(us)": 2760469,
+                    "output": "output([name.id], [cast_info.nr_order])",
+                    "CHILD_1": {
+                        "ID": 4,
+                        "OPERATOR": "HASH JOIN ",
+                        "NAME": "",
+                        "EST.ROWS": 206071,
+                        "EST.TIME(us)": 2702493,
+                        "output": "output([name.id], [cast_info.nr_order])",
+                        "CHILD_1": {
+                            "ID": 5,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "name",
+                            "EST.ROWS": 49147,
+                            "EST.TIME(us)": 267970,
+                            "output": "output([name.id])"
+                        },
+                        "CHILD_2": {
+                            "ID": 6,
+                            "OPERATOR": "TABLE FULL SCAN",
+                            "NAME": "cast_info",
+                            "EST.ROWS": 1812218,
+                            "EST.TIME(us)": 2258789,
+                            "output": "output([cast_info.person_id], [cast_info.nr_order])"
+                        }
+                    }
+                },
+                "CHILD_2": {
+                    "ID": 7,
+                    "OPERATOR": "TABLE FULL SCAN",
+                    "NAME": "person_info(person_id_person_info)",
+                    "EST.ROWS": 2551125,
+                    "EST.TIME(us)": 65791,
+                    "output": "output([person_info.person_id])"
+                }
+            },
+            "CHILD_2": {
+                "ID": 8,
+                "OPERATOR": "TABLE FULL SCAN",
+                "NAME": "aka_name(person_id_aka_name)",
+                "EST.ROWS": 901342,
+                "EST.TIME(us)": 23247,
+                "output": "output([aka_name.person_id])"
+            }
+        }
+    }
+}
