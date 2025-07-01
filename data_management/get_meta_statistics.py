@@ -91,5 +91,5 @@ def process_all_meta_data(data_directory):
 
 
 if __name__ == "__main__":
-    meta_data_path = '../training_data/TPCDS/'
+    meta_data_path = "./temp_330"
     process_all_meta_data(meta_data_path)

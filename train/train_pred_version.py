@@ -4,11 +4,14 @@ import os
 import random
 import sys
 import time
+from math import ceil
 
 
-sys.path.append('..')
+root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if root not in sys.path:
+    sys.path.insert(0, root)
 
-from model.feature import FeatureGenerator
+from model.feature_ob import FeatureGenerator
 from model.model import RankPQOModel
 
 k1 = [7, 9, 11, 13, 15]
@@ -22,7 +25,7 @@ def _param_path(base):
 
 
 def _cost_path(base):
-    return os.path.join(base, "cost_matrix_2.json")
+    return os.path.join(base, "cost_matrix_3000_330.json")
 
 
 def _meta_path(base):
@@ -94,7 +97,8 @@ def get_training_pair(candidate_plan, plan, param_key, cost):
     return X1, X2, Y1, Y2
 
 def get_training_pair_k(candidate_plan, plan, param_key, cost, k):
-    assert len(candidate_plan) >= 2
+    if len(candidate_plan) < 2:
+        return [], [], [], []
     X1, X2, Y1, Y2 = [], [], [], []
 
     for i in range(k):
@@ -131,7 +135,7 @@ def load_training_data_k(training_data_file, template_id, k):
     for param_key in param_keys:
         param_values = param[param_key]
         candidate_plan = list(cost[param_key].keys())
-        x1, x2, y1, y2 = get_training_pair_k(candidate_plan, plan, param_key, cost, int(k/param_num))
+        x1, x2, y1, y2 = get_training_pair_k(candidate_plan, plan, param_key, cost, ceil(k/param_num))
         Z += [list(param_values) for _ in range(len(x1))]
         X1 += x1
         X2 += x2
@@ -216,7 +220,7 @@ def training_no_share(training_data, model_path, device):
     all_folders = []
     for subdir, _, files in os.walk(training_data):
         if ("meta_data.json" in files and "hybrid_plans.json" in files
-                and "parameters.json" in files and "cost_matrix_2.json" in files):
+                and "parameter_new.json" in files and "cost_matrix_30.json" in files):
             all_folders.append(os.path.basename(subdir))
 
     print(all_folders)
@@ -283,7 +287,7 @@ def training_baseline(training_data, model_path, device):
     all_folders = []
     for subdir, _, files in os.walk(training_data):
         if ("meta_data.json" in files and "hybrid_plans.json" in files
-                and "parameters.json" in files and "cost_matrix_2.json" in files):
+                and "parameter_new.json" in files and "cost_matrix_30.json" in files):
             all_folders.append(os.path.basename(subdir))
 
     print(all_folders)
@@ -361,7 +365,7 @@ def alternating_training(training_data, model_path, device, epochs, epoch_step):
     all_folders = []
     for subdir, _, files in os.walk(training_data):
         if ("meta_data.json" in files and "hybrid_plans.json" in files
-                and "parameters.json" in files and "cost_matrix_2.json" in files):
+                and "parameter_new.json" in files and "cost_matrix_30.json" in files):
             all_folders.append(os.path.basename(subdir))
 
     print(all_folders)
@@ -432,7 +436,7 @@ def alternating_training(training_data, model_path, device, epochs, epoch_step):
 
         Z, X1, X2, Y1, Y2, params, preprocess_info = load_training_data_k(training_data, folder, 3000)
         rank_PQO_model = RankPQOModel(None, template_id, preprocess_info, device=device)
-        rank_PQO_model.load(model_path, fist_layer=1)
+        rank_PQO_model.load(model_path, first_layer=1)
         feature_generator = rank_PQO_model._feature_generator
         X1 = feature_generator.transform(X1)
         X2 = feature_generator.transform(X2)

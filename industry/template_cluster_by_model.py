@@ -17,12 +17,10 @@ def calculate_template_embedding_by_model(model, parameters, plans, device):
         Tensor: The embedding vector for the template.
     """
     # Process parameters (batch of parameter vectors)
-    parameter_array = np.array(parameters)  # Convert list of parameters to numpy array
+    parameter_array = np.array(parameters)
     parameter_x = torch.tensor(parameter_array, dtype=torch.float32).to(device)
-    param_embeddings = model.parameter_net(parameter_x)  # Forward pass for all parameters
-
-    # Average parameter embeddings
-    avg_param_embedding = torch.mean(param_embeddings, dim=0)  # Mean across the batch
+    param_embeddings = model.parameter_net(parameter_x)
+    avg_param_embedding = torch.mean(param_embeddings, dim=0)
 
     # Process plans (same as before)
     plan_x = model.plan_net.build_trees(plans)  # Preprocess plans

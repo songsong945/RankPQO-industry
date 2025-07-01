@@ -4,15 +4,11 @@ import json
 import time
 from multiprocessing import Pool
 
-from evaluate_cost_matrix_ob import generate_hint_from_plan, fetch_actual_latency, connect_to_pg, \
-    fetch_actual_latency_timeout
+from evaluate_cost_matrix_ob import generate_hint_from_plan, fetch_actual_latency, connect_to_ob, fetch_actual_latency_timeout
 
-
-def _cost_path(base):
-    return os.path.join(base, "latency_matrix_new.json")
 
 def _plan_path(base):
-    return os.path.join(base, "all_plans_by_hybrid_new.json")
+    return os.path.join(base, "hybrid_plans.json")
 
 def _param_path(base):
     return os.path.join(base, "parameter_new.json")
@@ -44,7 +40,7 @@ def collet_training_data_k(training_data_file, template_id, k):
         param = json.load(f)
 
     param_keys = random.sample(list(param.keys()), min(200, len(param.keys())))
-    param_keys = param_keys[:160]
+    # param_keys = param_keys[:160]
     param_num = len(param_keys)
 
     for param_key in param_keys:
@@ -59,7 +55,7 @@ def sample(training_data):
     all_folders = []
     for subdir, _, files in os.walk(training_data):
         print(subdir)
-        if ("meta_data.json" in files and "all_plans_by_hybrid_new.json" in files
+        if ("meta_data.json" in files and "hybrid_plans.json" in files
                 and "parameter_new.json" in files):
             all_folders.append(os.path.basename(subdir))
 
@@ -69,37 +65,40 @@ def sample(training_data):
 
 
 def evaluate_plans_for_parameters(connection, meta_data, plans, parameters_data, training_data):
-    template = meta_data["template"]
-    results = {}
-
+    template = meta_data["template"]   # 获取 SQL 模板
+    results = {}                       # 初始化结果字典
+    # sampled_plan_keys = random.sample(list(plans.keys()), min(20, len(plans.keys())))  # 随机抽样 20 个计划
+    # sampled_param_keys = list(parameters_data.keys())[:4]  # 取前 4 个参数向量
     sampled_param_keys = training_data.keys()
-    # random.seed(42)
-    # sampled_param_keys = random.sample(list(parameters_data.keys()), min(200, len(parameters_data.keys())))
 
     for param_key in sampled_param_keys:
-        param_values = parameters_data[param_key]
+        param_values = parameters_data[param_key]  # 当前参数向量
         results[param_key] = {}
+        sampled_plan_keys = training_data[param_key]
+        for plan_key in sampled_plan_keys:
+            plan = plans[plan_key]       # 选择执行计划
+            plan_hint = generate_hint_from_plan(plan)  # 生成 hint
+            # 修改：使用 OceanBase 的 EXPLAIN FORMAT=JSON 语法
+            # query_with_hint = "EXPLAIN FORMAT=JSON " + template.replace("SELECT", f"SELECT /*+ {plan_hint} */", 1)
+            query_with_hint = template.replace("SELECT", f"SELECT /*+ {plan_hint} */", 1)
+            # query_with_hint = query_with_hint % tuple(param_values)  # 填入参数
+            cost = fetch_actual_latency(connection, query_with_hint, param_values)  # 获取延迟
+            print(cost)
+            results[param_key][plan_key] = cost  # 保存结果
+    return results                   # 返回评估结果
 
-        #for plan_key in training_data[param_key]:
-        for plan_key in plans.keys():
-            plan = plans[plan_key]
-            plan_hint = generate_hint_from_plan(plan)
-            query_with_hint = f"/*+ {plan_hint} */ EXPLAIN ANALYZE " + template
-            query_with_hint = query_with_hint.format(*param_values)
-            cost = fetch_actual_latency(connection, query_with_hint, param_values)
-            # cost = fetch_actual_latency_timeout(connection, query_with_hint, param_values, 3)
-            results[param_key][plan_key] = cost
 
-    return results
 
 def evaluate_directory(subdir):
-    connection = connect_to_pg()
-    k = 3000
+    connection = connect_to_ob()
+    # print(connection.get_query_timeout() )
+
+    k = 1000
 
     with open(os.path.join(subdir, "meta_data.json"), 'r') as f_meta:
         meta_data = json.load(f_meta)
 
-    with open(os.path.join(subdir, "all_plans_by_hybrid_new.json"), 'r') as f_plans:
+    with open(os.path.join(subdir, "hybrid_plans.json"), 'r') as f_plans:
         plans = json.load(f_plans)
 
     with open(os.path.join(subdir, "parameter_new.json"), 'r') as f_params:
@@ -112,7 +111,7 @@ def evaluate_directory(subdir):
 
     costs = evaluate_plans_for_parameters(connection, meta_data, plans, parameters, training_data)
 
-    with open(os.path.join(subdir, f"cost_matrix_3k_no_timeout.json"), 'w') as f_costs:
+    with open(os.path.join(subdir, f"cost_matrix_1k.json"), 'w') as f_costs:
         json.dump(costs, f_costs, indent=4)
 
     print(f"Finished {subdir}...")
@@ -123,21 +122,17 @@ def evaluate_all_mutil_process(data_directory):
     directories_to_process = []
     k = 3000
     for subdir, _, files in os.walk(data_directory):
-        if f"training_data_{k}.json" in files:
+        if "meta_data.json" in files:
             directories_to_process.append(subdir)
-            # if os.path.basename(subdir) in ['20a', '14a', '10a']:
-            #     directories_to_process.insert(0, subdir)
-            # else:
-            #     directories_to_process.append(subdir)
 
     with Pool(processes=12) as pool:
         pool.map(evaluate_directory, directories_to_process)
 
 if __name__ == "__main__":
-    meta_data_path = '../training_data/JOB/'
-    start_time = time.time()
-    evaluate_all_mutil_process(meta_data_path)
-    end_time = time.time()
-    print(end_time-start_time)
-    # sample('/home/mosonsong/RankPQO/training_data/JOB/')
-    # evaluate_directory("../training_data/JOB/20a")
+    # meta_data_path = '../training_data/JOB_330/'
+    # start_time = time.time()
+    # evaluate_all_mutil_process(meta_data_path)
+    # end_time = time.time()
+    # print(end_time-start_time)
+    # sample('../training_data/JOB_330/')
+    evaluate_directory("../training_data/JOB_330/job_1")

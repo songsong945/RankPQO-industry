@@ -224,7 +224,7 @@ def best_plan_prediction2(data, is_share, model_path, device, input, output):
         parameters_test_data = [param[key] for key in test_keys_list if key in param]
 
         rank_PQO_model = RankPQOModel(None, template_id, preprocess_info, device=device)
-        rank_PQO_model.load(model_path_file, fist_layer=1)
+        rank_PQO_model.load(model_path_file, first_layer=1)
         feature_generator = rank_PQO_model._feature_generator
         plans_t = feature_generator.transform(plans)
         train_parameters = feature_generator.transform_z(parameters_train_data, params, preprocess_info)

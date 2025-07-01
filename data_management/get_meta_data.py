@@ -27,7 +27,7 @@ def determine_preprocess_type(data_type):
     elif data_type == "float":
         return "std_normalization"
     elif data_type == "int":
-        return "one_hot"
+        return "embedding"
 
 
 def extract_conditions_from_token(token):
@@ -85,11 +85,11 @@ def generate_meta_data_from_sql(file_path, meta_data_path, template_id):
 
     for condition in where_conditions:
         column = condition["column"]
-        alias, column_name = column.split(".")
+        #alias, column_name = column.split(".")
         data_type = determine_data_type(condition["value"])
         preprocess_type = determine_preprocess_type(data_type)
         predicates.append({
-            "alias": alias,
+            "alias": "",
             "column": column,
             "operator": condition["operator"].lower(),
             "data_type": data_type,
@@ -130,6 +130,6 @@ def process_and_save_all_sql_files(source_directory, target_directory):
 
 
 if __name__ == "__main__":
-    sql_file_path = '../training_data/join-order-benchmark/'
-    meta_data_path = '../training_data/JOB/'
+    sql_file_path = "./dsb_1500"
+    meta_data_path = "./temp_1500"
     process_and_save_all_sql_files(sql_file_path, meta_data_path)

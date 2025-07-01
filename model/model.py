@@ -320,7 +320,7 @@ class RankPQOModel():
         self.columns = None
         self.ops = None
 
-    def load(self, path, fist_layer=0):
+    def load(self, path, first_layer=0):
         with open(_input_feature_dim_path(path), "rb") as f:
             self._input_feature_dim = joblib.load(f)
 
@@ -333,7 +333,7 @@ class RankPQOModel():
         self.plan_net.eval()
 
         self.parameter_net = ParameterEmbeddingNet(self._template_id, self.preprocessing_infos).to(self.device)
-        if fist_layer:
+        if first_layer:
             state_dicts = torch.load(_fnn_path_first_layer(path, self._template_id), map_location=torch.device(self.device))
             self.parameter_net.embed_layers.load_state_dict(state_dicts['embed_layer'])
             self.parameter_net.fc1.load_state_dict(state_dicts['fc1'])
@@ -841,5 +841,44 @@ class RankPQOModel():
 
         return accuracy1, accuracy2, loss1, loss2
         #return train_acc, test_acc, train_loss, test_loss
+
+    def finetune_param_only(self, X1, X2, Y1, Y2, Z, steps=10, batch_size=16):
+
+        self.parameter_net.train()
+        self.plan_net.eval()
+
+        if isinstance(Y1, list):
+            Y1 = np.array(Y1).reshape(-1, 1)
+        if isinstance(Y2, list):
+            Y2 = np.array(Y2).reshape(-1, 1)
+
+        dataset, _, _ = split_pair_dataset(X1, X2, Y1, Y2, Z, train_ratio=1.0, val_ratio=0.0)
+        dataloader = DataLoader(dataset, batch_size=batch_size, collate_fn=collate_pairwise_fn)
+
+        optimizer = torch.optim.Adam(self.parameter_net.parameters())
+        loss_fn = torch.nn.BCELoss()
+
+        for epoch in range(steps):
+            for x1, x2, z, label in dataloader:
+                z = z.to(self.device)
+                label = label.to(self.device)
+
+                with torch.no_grad():
+                    tree_x1 = self.plan_net.build_trees(x1)
+                    tree_x2 = self.plan_net.build_trees(x2)
+                    y1 = self.plan_net(tree_x1)
+                    y2 = self.plan_net(tree_x2)
+
+                z_pred = self.parameter_net(z)
+
+                distance1 = torch.norm(y1 - z_pred, dim=1)
+                distance2 = torch.norm(y2 - z_pred, dim=1)
+                prob = torch.sigmoid(distance1 - distance2)
+
+                loss = loss_fn(prob.view(-1, 1), label)
+
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
 
 
