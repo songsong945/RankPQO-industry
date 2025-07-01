@@ -287,7 +287,7 @@ if __name__ == "__main__":
     print("Device:", args.device)
     print("Epochs:", args.epochs)
     print("Epoch step:", args.epoch_step)
-    print("K (num clusters):", args.k)
+    print("Num clusters:", args.cluster)
     print("Data size:", args.data_size)
 
     if args.function == "edited_cluster_train":
@@ -297,7 +297,7 @@ if __name__ == "__main__":
             device=args.device,
             epochs=args.epochs,
             epoch_step=args.epoch_step,
-            k=args.k,
+            k=args.cluster,
             data_size=args.data_size
         )
 
@@ -308,7 +308,7 @@ if __name__ == "__main__":
             device=args.device,
             epochs=args.epochs,
             epoch_step=args.epoch_step,
-            k=args.k,
+            k=args.cluster,
             data_size=args.data_size
         )
 
