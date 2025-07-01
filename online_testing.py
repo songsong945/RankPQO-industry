@@ -71,7 +71,7 @@ def best_plan_prediction_grouped(data, model_path, device, group_dir, group_id, 
 
         results[job_id] = {}
 
-        for param_key, param_values in islice(param_dict.items(), 1):
+        for param_key, param_values in param_dict.items():
             parameter_trans = feature_generator.transform_z([param_values], params, preprocess_info)[0]
 
             start = time.time()
@@ -152,7 +152,7 @@ def best_plan_prediction_original_ob(data, group_dir, group_count, output_dir):
 
             group_output[job_id] = {}
 
-            for param_key, param_values in islice(param_dict.items(), 1):
+            for param_key, param_values in param_dict.items():
                 latency = fetch_actual_latency(connection, template, param_values)
                 group_output[job_id][param_key] = {"latency": latency}
                 group_time += latency

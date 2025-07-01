@@ -1,7 +1,7 @@
 import os
 
 # 设置根目录
-root_dir = '../training_data/JOB_330/'
+root_dir = '../training_data/JOB_330/cd'
 
 # 保留的文件名
 keep_files = {"meta_data.json", "hybrid_plans.json", "parameter_new.json"}
